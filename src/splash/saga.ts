@@ -1,6 +1,7 @@
-import { all, takeLatest, call, select, put } from 'redux-saga/effects';
+import { all, takeLatest, call, put } from 'redux-saga/effects';
 import { actions as SPLASH, airportFetched } from '.';
 import Amadeus from 'amadeus';
+import { history } from '../store';
 
 const getLocation = () => {
   const geolocation = navigator.geolocation;
@@ -19,8 +20,8 @@ const getAirport = location => {
   } = location;
   return new Promise((resolve, reject) => {
     var amadeus = new Amadeus({
-      clientId: 'SZWBHthze0TOzJA4qNoLbG3d76QcaT4T',
-      clientSecret: 'zM8C6IHGtCGCp23D',
+      clientId: process.env.REACT_APP_CLIENT_ID,
+      clientSecret: process.env.REACT_APP_CLIENT_SECRET,
     });
     amadeus.referenceData.locations.airports
       .get({
@@ -37,6 +38,7 @@ export function* fetchAirportSaga() {
     const location = yield call(getLocation);
     const airport = yield call(getAirport, location);
     yield put(airportFetched(airport));
+    history.push('/pass');
   } catch (error) {
     yield error;
   }

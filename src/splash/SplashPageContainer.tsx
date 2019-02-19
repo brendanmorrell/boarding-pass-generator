@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import Geolocate from './Geolocate';
+import Geolocate from '../pass/Geolocate';
 import { connect } from 'react-redux';
 import { fetchAirport } from '.';
 
